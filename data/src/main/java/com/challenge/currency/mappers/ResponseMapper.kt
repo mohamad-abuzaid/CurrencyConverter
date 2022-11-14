@@ -1,11 +1,8 @@
 package com.challenge.currency.mappers
 
 import com.challenge.currency.remote.models.ResponseRemote
-import eu.krzdabrowski.starter.basicfeature.data.local.model.RocketCached
-import eu.krzdabrowski.starter.basicfeature.data.remote.model.RocketResponse
-import eu.krzdabrowski.starter.basicfeature.domain.model.Rocket
+import com.challenge.currency.model.Rocket
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 fun ResponseRemote.toResponseModel() = Rocket(
     id = id,

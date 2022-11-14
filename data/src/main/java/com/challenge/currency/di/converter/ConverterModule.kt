@@ -3,6 +3,7 @@ package com.challenge.currency.di.converter
 import com.challenge.currency.di.converter.RocketModule.BindsModule
 import com.challenge.currency.remote.api.ConverterApi
 import com.challenge.currency.repositories.ConverterRepositoryImpl
+import com.challenge.currency.repository.ResponseRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,7 @@ object ConverterModule {
 
     @Provides
     fun provideGetRocketsUseCase(
-        rocketRepository: RocketRepository
+        rocketRepository: ResponseRepository
     ): GetRocketsUseCase {
         return GetRocketsUseCase {
             getRockets(rocketRepository)
