@@ -1,4 +1,4 @@
-package com.challenge.domain.ui.main
+package com.challenge.currency.ui.main
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.challenge.domain.R
+import com.challenge.currency.R
 
 class MainFragment : Fragment() {
 

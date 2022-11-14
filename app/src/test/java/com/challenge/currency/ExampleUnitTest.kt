@@ -1,4 +1,4 @@
-package com.challenge.domain
+package com.challenge.currency
 
 import org.junit.Test
 

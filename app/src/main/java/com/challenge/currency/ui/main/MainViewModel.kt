@@ -1,4 +1,4 @@
-package com.challenge.domain.ui.main
+package com.challenge.currency.ui.main
 
 import androidx.lifecycle.ViewModel
 

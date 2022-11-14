@@ -1,8 +1,8 @@
-package com.challenge.domain
+package com.challenge.currency
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.challenge.domain.ui.main.MainFragment
+import com.challenge.currency.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
