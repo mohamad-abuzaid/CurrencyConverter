@@ -10,7 +10,9 @@ apply from: '../config-properties.gradle'
 dependencies {
   implementation project(':domain')
 
+  coroutines()
   hilt()
   jsonParse()
+  networking()
   testing()
 }

@@ -12,6 +12,7 @@ dependencies {
   implementation project(':domain')
 
   lifecycle()
+  coroutines()
   hilt()
   tools()
   support()

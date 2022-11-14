@@ -51,14 +51,11 @@ ext {
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
   networking = Group {
-    api deps.retrofit.retrofit
-    api deps.retrofit.adapters
-    api deps.retrofit.gson
-//    api deps.okHttp.okHttp
-//    api deps.okHttp.logging
-//    implementation(deps.okHttp.prettyLogger) {
-//      exclude group: 'org.json', module: 'json'
-//    }
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.adapters
+    implementation deps.retrofit.gson
+    implementation deps.okHttp.okHttp
+    implementation deps.okHttp.logging
   }
 
   jsonParse = Group {
@@ -70,7 +67,7 @@ ext {
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
   coroutines = Group {
-    api deps.coroutine.coroutines
+    implementation deps.coroutine.coroutines
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////

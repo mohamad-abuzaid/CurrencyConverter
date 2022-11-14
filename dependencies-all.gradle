@@ -41,6 +41,8 @@ ext.deps = [
         'gson': "com.squareup.retrofit2:converter-gson:$versions.retrofit",
     ],
     'okHttp': [
+        'okHttp': "com.squareup.okhttp3:okhttp:$versions.okHttp",
+        'logging': "com.squareup.okhttp3:logging-interceptor:$versions.okHttp",
         'mockwebserver': "com.squareup.okhttp3:mockwebserver:$versions.okHttp",
     ],
     'coroutine': [
