@@ -1,0 +1,83 @@
+ext.deps = [
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // BUILD                                                                                  //
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    'build': [
+        'gradle': "com.android.tools.build:gradle:$versions.gradle",
+        'kotlin': "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        'navSafeArgs': "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.nav_version_ktx"
+    ],
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // MAIN                                                                                   //
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    'android': [
+        'core_ktx': "androidx.core:core-ktx:$versions.kotlin",
+        'appcompat': "androidx.appcompat:appcompat:1.5.1",
+    ],
+    'support': [
+        'constraint': "androidx.constraintlayout:constraintlayout:2.1.4",
+        'recyclerView': "androidx.recyclerview:recyclerview:1.1.0",
+        'materialDesign': "com.google.android.material:material:1.7.0",
+        'activity_ktx': "androidx.activity:activity-ktx:1.6.1",
+        'fragment_ktx': "androidx.fragment:fragment-ktx:1.5.4",
+    ],
+    'navigation': [
+        'navigationFragment': "androidx.navigation:navigation-fragment-ktx:$versions.nav_version_ktx",
+        'navigationUi': "androidx.navigation:navigation-ui-ktx:$versions.nav_version_ktx",
+        'dynamic': "androidx.navigation:navigation-dynamic-features-fragment:$versions.nav_version_ktx",
+        'testing': "androidx.navigation:navigation-testing:$versions.nav_version_ktx",
+    ],
+    'hilt': [
+        'hilt': "com.google.dagger:hilt-android:$versions.hilt",
+        'compiler': "com.google.dagger:hilt-android-compiler:$versions.hilt",
+        'nav_frag': "androidx.hilt:hilt-navigation-fragment:1.0.0",
+    ],
+    'retrofit': [
+        'retrofit': "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        'adapters': "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
+        'gson': "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+    ],
+    'okHttp': [
+        'mockwebserver': "com.squareup.okhttp3:mockwebserver:$versions.okHttp",
+    ],
+    'coroutine': [
+        'coroutines': "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9",
+    ],
+    'lifecycle': [
+        'viewModel': "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
+        'liveData': "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
+        'testing': "androidx.arch.core:core-testing:2.1.0",
+    ],
+    'google_gson': "com.google.code.gson:gson:2.9.1",
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // TOOLS                                                                                  //
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    'parceler': [
+        'parceler': "org.parceler:parceler:$versions.parceler",
+        'api': "org.parceler:parceler-api:$versions.parceler",
+    ],
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // TESTING                                                                                //
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    'jUnit': "junit:junit:4.13.2",
+    'runner': "androidx.test:runner:1.1.0",
+    'JUnitRunner': "androidx.test.runner.AndroidJUnitRunner",
+    'mockito': [
+        'core': "org.mockito:mockito-core:$versions.mockito",
+        'inline': "org.mockito:mockito-inline:$versions.mockito",
+        'android': "org.mockito:mockito-android:$versions.mockito",
+        'kotlin': "com.nhaarman:mockito-kotlin:1.6.0",
+    ],
+
+    'androidxTest': "androidx.test:core:1.1.0",
+    'androidxJunit': "androidx.test.ext:junit:1.1.3",
+    'androidxFTest': "androidx.fragment:fragment-testing:fragment",
+    'mockwebserver': "com.squareup.okhttp3:mockwebserver:4.3.1"
+]

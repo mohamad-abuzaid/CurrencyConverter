@@ -1,0 +1,111 @@
+def Group(Closure closure) {
+  closure.delegate = dependencies
+  return closure
+}
+
+ext {
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // ANDROID                                                                                       //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  android = Group {
+    api deps.android.core_ktx
+    api deps.android.appcompat
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // SUPPORT                                                                                       //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  support = Group {
+    implementation deps.support.constraint
+    implementation deps.support.recyclerView
+    implementation deps.support.materialDesign
+    implementation deps.support.activity_ktx
+    implementation deps.support.fragment_ktx
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // NAVIGATION                                                                                       //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  navigation = Group {
+    implementation deps.navigation.navigationFragment
+    implementation deps.navigation.navigationUi
+    implementation deps.navigation.dynamic
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // HILT                                                                                     //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  hilt = Group {
+    implementation deps.hilt.hilt
+    kapt deps.hilt.compiler
+    implementation deps.hilt.nav_frag
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // NETWORKING                                                                                 //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  networking = Group {
+    api deps.retrofit.retrofit
+    api deps.retrofit.adapters
+    api deps.retrofit.gson
+//    api deps.okHttp.okHttp
+//    api deps.okHttp.logging
+//    implementation(deps.okHttp.prettyLogger) {
+//      exclude group: 'org.json', module: 'json'
+//    }
+  }
+
+  jsonParse = Group {
+    api deps.google_gson
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // COROUTINES                                                                                         //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  coroutines = Group {
+    api deps.coroutine.coroutines
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // ARCHITECTURE COMPONENTS                                                                    //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  lifecycle = Group {
+    implementation deps.lifecycle.viewModel
+    implementation deps.lifecycle.liveData
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // TOOLS                                                                                      //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  tools = Group {
+    kapt deps.parceler.parceler
+    implementation deps.parceler.api
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // TESTING                                                                                    //
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  testing = Group {
+    testImplementation deps.mockito.core
+    testImplementation deps.mockito.inline
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.lifecycle.testing
+
+    androidTestImplementation(deps.runner) {
+      exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    testImplementation deps.androidxJunit
+    androidTestImplementation deps.androidxJunit
+    testImplementation deps.mockwebserver
+  }
+}
