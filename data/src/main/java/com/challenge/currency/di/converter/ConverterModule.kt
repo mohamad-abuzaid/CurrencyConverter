@@ -1,31 +1,26 @@
 package com.challenge.currency.di.converter
 
 import com.challenge.currency.di.converter.RocketModule.BindsModule
+import com.challenge.currency.remote.api.ConverterApi
+import com.challenge.currency.repositories.ConverterRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import eu.krzdabrowski.starter.basicfeature.data.remote.api.RocketApi
-import eu.krzdabrowski.starter.basicfeature.data.repository.RocketRepositoryImpl
-import eu.krzdabrowski.starter.basicfeature.domain.repository.RocketRepository
-import eu.krzdabrowski.starter.basicfeature.domain.usecase.GetRocketsUseCase
-import eu.krzdabrowski.starter.basicfeature.domain.usecase.RefreshRocketsUseCase
-import eu.krzdabrowski.starter.basicfeature.domain.usecase.getRockets
-import eu.krzdabrowski.starter.basicfeature.domain.usecase.refreshRockets
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module(includes = [BindsModule::class])
 @InstallIn(SingletonComponent::class)
-object RocketModule {
+object ConverterModule {
 
     @Provides
     @Singleton
-    fun provideRocketApi(
+    fun provideConverterApi(
         retrofit: Retrofit
-    ): RocketApi {
-        return retrofit.create(RocketApi::class.java)
+    ): ConverterApi {
+        return retrofit.create(ConverterApi::class.java)
     }
 
     @Provides
@@ -52,6 +47,6 @@ object RocketModule {
 
         @Binds
         @Singleton
-        fun bindRocketRepository(impl: RocketRepositoryImpl): RocketRepository
+        fun bindConverterRepository(impl: ConverterRepositoryImpl): RocketRepository
     }
 }
