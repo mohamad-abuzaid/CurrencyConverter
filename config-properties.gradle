@@ -1,0 +1,51 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Config                                                                                         //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Config {
+  Properties commonProperties
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Pull in config properties                                                                      //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ext {
+  config = new Config()
+  def basePath = rootDir.absolutePath + "/config/"
+
+  config.commonProperties = new Properties()
+  def commonPropertiesFileName = "common.properties"
+  config.
+      commonProperties.
+      load(new FileInputStream(rootProject.file((basePath + commonPropertiesFileName))))
+}
+
+android {
+
+  buildTypes {
+    release {
+      buildConfigField "String", "BASE_URL", "\"${config.commonProperties.release_base_url}\""
+      buildConfigField "String", "API_KEY", "\"${config.commonProperties.release_api_key}\""
+    }
+
+    staging {
+      buildConfigField "String", "BASE_URL", "\"${config.commonProperties.staging_base_url}\""
+      buildConfigField "String", "API_KEY", "\"${config.commonProperties.staging_api_key}\""
+    }
+
+    debug {
+      buildConfigField "String", "BASE_URL", "\"${config.commonProperties.develop_base_url}\""
+      buildConfigField "String", "API_KEY", "\"${config.commonProperties.develop_api_key}\""
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}

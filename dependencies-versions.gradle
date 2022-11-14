@@ -7,7 +7,7 @@ ext.versions = [
     'compileSdk': 32,
     'buildTools': '30.0.3',
     'targetSdk': 32,
-    'minSdk': 21,
+    'minSdk': 23,
 
     'kotlin': '1.9.0',
     'retrofit': '2.9.0',
