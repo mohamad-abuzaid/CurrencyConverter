@@ -10,6 +10,7 @@ apply from: '../config-properties.gradle'
 
 dependencies {
   implementation project(':domain')
+  implementation project(':data')
 
   lifecycle()
   coroutines()

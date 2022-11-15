@@ -4,9 +4,8 @@ ext.versions = [
     // MAIN                                                                                   //
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    'compileSdk': 32,
-    'buildTools': '30.0.3',
-    'targetSdk': 32,
+    'compileSdk': 33,
+    'targetSdk': 33,
     'minSdk': 23,
 
     'kotlin': '1.9.0',

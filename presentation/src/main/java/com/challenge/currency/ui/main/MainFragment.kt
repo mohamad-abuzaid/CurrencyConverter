@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.challenge.currency.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,7 @@ class MainFragment : Fragment() {
     fun newInstance() = MainFragment()
   }
 
-  private val viewModel by viewModels<MainViewModel>()
+  private val viewModel: MainViewModel by hiltNavGraphViewModels(R.id.converter_nav_graph)
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,

@@ -29,11 +29,11 @@ ext.deps = [
         'navigationUi': "androidx.navigation:navigation-ui-ktx:$versions.nav_version_ktx",
         'dynamic': "androidx.navigation:navigation-dynamic-features-fragment:$versions.nav_version_ktx",
         'testing': "androidx.navigation:navigation-testing:$versions.nav_version_ktx",
+        'hiltNavFrag': "androidx.hilt:hilt-navigation-fragment:1.0.0",
     ],
     'hilt': [
         'hilt': "com.google.dagger:hilt-android:$versions.hilt",
         'compiler': "com.google.dagger:hilt-android-compiler:$versions.hilt",
-        'nav_frag': "androidx.hilt:hilt-navigation-fragment:1.0.0",
     ],
     'retrofit': [
         'retrofit': "com.squareup.retrofit2:retrofit:$versions.retrofit",

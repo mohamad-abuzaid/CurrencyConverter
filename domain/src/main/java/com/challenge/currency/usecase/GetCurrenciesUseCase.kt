@@ -3,11 +3,14 @@ package com.challenge.currency.usecase
 import com.challenge.currency.extensions.resultOf
 import com.challenge.currency.model.CurrenciesModel
 import com.challenge.currency.repository.ConverterRepository
+import javax.inject.Inject
 
-fun interface GetCurrenciesUseCase : suspend () -> Result<CurrenciesModel>
+class GetCurrenciesUseCase @Inject constructor(
+  private val converterRepository: ConverterRepository
+) {
 
-suspend fun getCurrencies(
-  converterRepository: ConverterRepository
-): Result<CurrenciesModel> = resultOf {
-  converterRepository.getAllCurrencies()
+  suspend operator fun invoke(): Result<CurrenciesModel> = resultOf {
+    converterRepository.getAllCurrencies()
+  }
+
 }

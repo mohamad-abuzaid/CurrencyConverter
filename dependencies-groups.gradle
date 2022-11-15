@@ -34,6 +34,7 @@ ext {
     implementation deps.navigation.navigationFragment
     implementation deps.navigation.navigationUi
     implementation deps.navigation.dynamic
+    implementation deps.navigation.hiltNavFrag
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +44,6 @@ ext {
   hilt = Group {
     implementation deps.hilt.hilt
     kapt deps.hilt.compiler
-    implementation deps.hilt.nav_frag
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
