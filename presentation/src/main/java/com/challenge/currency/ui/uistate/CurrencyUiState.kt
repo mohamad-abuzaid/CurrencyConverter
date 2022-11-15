@@ -10,11 +10,11 @@ data class CurrencyUiState(
   val isError: Boolean = false
 ) : Parcelable {
 
-  sealed class FetchState {
-    object Loading : FetchState() // for simplicity: initial loading & refreshing
+  sealed class FetchedState {
+    object Loading : FetchedState() // for simplicity: initial loading & refreshing
 
-    data class Fetched(val currencies: Map<String, String>) : FetchState()
+    data class Fetched(val currencies: Map<String, String>) : FetchedState()
 
-    data class Error(val throwable: Throwable) : FetchState()
+    data class Error(val throwable: Throwable) : FetchedState()
   }
 }
