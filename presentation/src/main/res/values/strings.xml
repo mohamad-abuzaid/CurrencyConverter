@@ -3,4 +3,8 @@
   <string name="hint_from">From</string>
   <string name="hint_to">To</string>
   <string name="details">Details</string>
+  <string name="select_currency">Select Currency</string>
+
+
+  <string name="curr_error">Fetching data failed, try again</string>
 </resources>

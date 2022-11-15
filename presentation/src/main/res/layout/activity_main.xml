@@ -20,15 +20,4 @@
     app:navGraph="@navigation/converter_nav_graph"
     tools:ignore="FragmentTagUsage" />
 
-  <ProgressBar
-    android:id="@+id/progress_bar"
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    android:background="@color/main_blue"
-    android:visibility="gone"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
