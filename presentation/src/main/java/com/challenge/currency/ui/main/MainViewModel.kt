@@ -1,10 +1,9 @@
 package com.challenge.currency.ui.main
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.challenge.currency.base.BaseViewModel
-import com.challenge.currency.ui.intents.ConverterIntent
-import com.challenge.currency.ui.intents.ConverterIntent.ConvertCurrencies
-import com.challenge.currency.ui.intents.ConverterIntent.GetCurrencies
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.challenge.currency.ui.uistate.CurrencyUiState
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Error
@@ -13,30 +12,37 @@ import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Loading
 import com.challenge.domain.usecase.GetCurrenciesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val SAVED_UI_STATE_KEY = "savedUiStateKey"
+private const val TAG = "BaseViewModel"
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
   private val getCurrenciesUseCase: GetCurrenciesUseCase,
   savedStateHandle: SavedStateHandle,
   currencyInitialState: CurrencyUiState
-) : BaseViewModel<CurrencyUiState, FetchedState, ConverterIntent>(
-  savedStateHandle,
-  currencyInitialState
-) {
+) : ViewModel() {
+
+  val uiState = savedStateHandle.getStateFlow(SAVED_UI_STATE_KEY, currencyInitialState)
 
   init {
-    fireIntent(GetCurrencies)
+    viewModelScope.launch {
+      getCurrencies()
+        .scan(uiState.value, ::reduceUiState)
+        .catch { Log.e(TAG, "", it) }
+        .collect {
+          savedStateHandle[SAVED_UI_STATE_KEY] = it
+        }
+    }
   }
 
-  override fun mapIntents(intent: ConverterIntent): Flow<FetchedState> = when (intent) {
-    is GetCurrencies -> getCurrencies()
-    is ConvertCurrencies -> convertCurrencies()
-  }
-
-  override fun reduceUiState(
+  private fun reduceUiState(
     previousState: CurrencyUiState,
     fetchedState: FetchedState
   ): CurrencyUiState = when (fetchedState) {
@@ -57,9 +63,7 @@ class MainViewModel @Inject constructor(
 
   private fun getCurrencies(): Flow<FetchedState> = flow {
     getCurrenciesUseCase()
-      .onStart {
-        emit(Loading)
-      }
+      .onStart { emit(Loading) }
       .collect { result ->
         result
           .onSuccess { currencies ->

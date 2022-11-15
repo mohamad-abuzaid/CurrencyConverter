@@ -1,6 +1,6 @@
 package com.challenge.data.repositories
 
-import com.challenge.data.BuildConfig
+import com.challenge.domain.BuildConfig
 import com.challenge.data.mappers.toCurrenciesModel
 import com.challenge.data.remote.api.ConverterApi
 import com.challenge.domain.model.CurrenciesModel

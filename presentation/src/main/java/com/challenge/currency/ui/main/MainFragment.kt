@@ -48,7 +48,7 @@ class MainFragment : Fragment() {
 
   private fun initSpinners() {
     spinnerAdapter =
-      ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item)
+      ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
     spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
     with(binding.spCurrFrom) {
@@ -66,7 +66,7 @@ class MainFragment : Fragment() {
       prompt = getString(R.string.select_currency)
       gravity = Gravity.CENTER
     }
-    binding.spCurrFrom.id = FROM_SPINNER_ID
+    binding.spCurrFrom.tag = FROM_SPINNER_ID
 
     with(binding.spCurrTo) {
       adapter = spinnerAdapter
@@ -83,7 +83,7 @@ class MainFragment : Fragment() {
       prompt = getString(R.string.select_currency)
       gravity = Gravity.CENTER
     }
-    binding.spCurrTo.id = TO_SPINNER_ID
+    binding.spCurrTo.tag = TO_SPINNER_ID
 
   }
 
