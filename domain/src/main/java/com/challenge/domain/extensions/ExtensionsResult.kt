@@ -1,4 +1,4 @@
-package com.challenge.currency.extensions
+package com.challenge.domain.extensions
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException

@@ -1,4 +1,4 @@
-package com.challenge.currency.remote.models
+package com.challenge.data.remote.models
 
 import com.google.gson.annotations.SerializedName
 

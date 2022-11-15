@@ -1,6 +1,6 @@
-package com.challenge.currency.di.network
+package com.challenge.data.di.network
 
-import com.challenge.currency.BuildConfig
+import com.challenge.domain.BuildConfig
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

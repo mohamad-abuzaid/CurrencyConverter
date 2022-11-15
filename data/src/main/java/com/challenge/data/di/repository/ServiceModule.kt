@@ -1,6 +1,6 @@
-package com.challenge.currency.di.repository
+package com.challenge.data.di.repository
 
-import com.challenge.currency.remote.api.ConverterApi
+import com.challenge.data.remote.api.ConverterApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

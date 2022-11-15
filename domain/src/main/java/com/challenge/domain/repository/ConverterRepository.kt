@@ -1,6 +1,6 @@
-package com.challenge.currency.repository
+package com.challenge.domain.repository
 
-import com.challenge.currency.model.CurrenciesModel
+import com.challenge.domain.model.CurrenciesModel
 import kotlinx.coroutines.flow.Flow
 
 interface ConverterRepository {

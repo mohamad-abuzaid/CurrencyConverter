@@ -1,8 +1,8 @@
-package com.challenge.currency.usecase
+package com.challenge.domain.usecase
 
-import com.challenge.currency.extensions.resultOf
-import com.challenge.currency.model.CurrenciesModel
-import com.challenge.currency.repository.ConverterRepository
+import com.challenge.domain.extensions.resultOf
+import com.challenge.domain.model.CurrenciesModel
+import com.challenge.domain.repository.ConverterRepository
 import javax.inject.Inject
 
 class GetCurrenciesUseCase @Inject constructor(

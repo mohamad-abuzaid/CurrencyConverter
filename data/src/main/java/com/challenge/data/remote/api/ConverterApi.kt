@@ -1,6 +1,6 @@
-package com.challenge.currency.remote.api
+package com.challenge.data.remote.api
 
-import com.challenge.currency.remote.models.CurrenciesRemote
+import com.challenge.data.remote.models.CurrenciesRemote
 import retrofit2.http.GET
 import retrofit2.http.Query
 

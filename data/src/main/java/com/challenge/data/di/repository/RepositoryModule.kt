@@ -1,7 +1,7 @@
-package com.challenge.currency.di.repository
+package com.challenge.data.di.repository
 
-import com.challenge.currency.repositories.ConverterRepositoryImpl
-import com.challenge.currency.repository.ConverterRepository
+import com.challenge.data.repositories.ConverterRepositoryImpl
+import com.challenge.domain.repository.ConverterRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,5 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
 
   @Binds
-  @Singleton
   abstract fun bindConverterRepository(impl: ConverterRepositoryImpl): ConverterRepository
 }

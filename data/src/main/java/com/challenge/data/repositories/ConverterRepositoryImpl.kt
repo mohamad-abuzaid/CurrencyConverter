@@ -1,10 +1,10 @@
-package com.challenge.currency.repositories
+package com.challenge.data.repositories
 
-import com.challenge.currency.BuildConfig
-import com.challenge.currency.mappers.toCurrenciesModel
-import com.challenge.currency.model.CurrenciesModel
-import com.challenge.currency.remote.api.ConverterApi
-import com.challenge.currency.repository.ConverterRepository
+import com.challenge.data.BuildConfig
+import com.challenge.data.mappers.toCurrenciesModel
+import com.challenge.domain.model.CurrenciesModel
+import com.challenge.data.remote.api.ConverterApi
+import com.challenge.domain.repository.ConverterRepository
 import javax.inject.Inject
 
 class ConverterRepositoryImpl @Inject constructor(

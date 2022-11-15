@@ -1,8 +1,8 @@
 package com.challenge.currency.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.challenge.currency.repository.ConverterRepository
-import com.challenge.currency.usecase.GetCurrenciesUseCase
+import com.challenge.domain.repository.ConverterRepository
+import com.challenge.domain.usecase.GetCurrenciesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
