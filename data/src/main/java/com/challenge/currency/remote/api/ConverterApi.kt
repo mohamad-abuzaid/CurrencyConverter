@@ -1,10 +1,13 @@
 package com.challenge.currency.remote.api
 
-import com.challenge.currency.remote.models.ResponseRemote
+import com.challenge.currency.remote.models.CurrenciesRemote
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ConverterApi {
 
-    @GET("rockets")
-    suspend fun getRockets(): List<ResponseRemote>
+  @GET("symbols")
+  suspend fun getAllCurrencies(
+    @Query("access_key") accessKey: String,
+  ): CurrenciesRemote
 }

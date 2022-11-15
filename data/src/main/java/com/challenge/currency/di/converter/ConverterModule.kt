@@ -1,9 +1,11 @@
 package com.challenge.currency.di.converter
 
-import com.challenge.currency.di.converter.RocketModule.BindsModule
+import com.challenge.currency.di.converter.ConverterModule.BindsModule
 import com.challenge.currency.remote.api.ConverterApi
 import com.challenge.currency.repositories.ConverterRepositoryImpl
-import com.challenge.currency.repository.ResponseRepository
+import com.challenge.currency.repository.ConverterRepository
+import com.challenge.currency.usecase.GetCurrenciesUseCase
+import com.challenge.currency.usecase.getCurrencies
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,38 +18,29 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ConverterModule {
 
-    @Provides
+  @Provides
+  @Singleton
+  fun provideConverterApi(
+    retrofit: Retrofit
+  ): ConverterApi {
+    return retrofit.create(ConverterApi::class.java)
+  }
+
+  @Provides
+  fun provideGetCurrenciesUseCase(
+    converterRepository: ConverterRepository
+  ): GetCurrenciesUseCase {
+    return GetCurrenciesUseCase {
+      getCurrencies(converterRepository)
+    }
+  }
+
+  @Module
+  @InstallIn(SingletonComponent::class)
+  interface BindsModule {
+
+    @Binds
     @Singleton
-    fun provideConverterApi(
-        retrofit: Retrofit
-    ): ConverterApi {
-        return retrofit.create(ConverterApi::class.java)
-    }
-
-    @Provides
-    fun provideGetRocketsUseCase(
-        rocketRepository: ResponseRepository
-    ): GetRocketsUseCase {
-        return GetRocketsUseCase {
-            getRockets(rocketRepository)
-        }
-    }
-
-    @Provides
-    fun provideRefreshRocketsUseCase(
-        rocketRepository: RocketRepository
-    ): RefreshRocketsUseCase {
-        return RefreshRocketsUseCase {
-            refreshRockets(rocketRepository)
-        }
-    }
-
-    @Module
-    @InstallIn(SingletonComponent::class)
-    interface BindsModule {
-
-        @Binds
-        @Singleton
-        fun bindConverterRepository(impl: ConverterRepositoryImpl): RocketRepository
-    }
+    fun bindConverterRepository(impl: ConverterRepositoryImpl): ConverterRepository
+  }
 }
