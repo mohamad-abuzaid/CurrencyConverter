@@ -25,13 +25,17 @@ private const val TAG = "BaseViewModel"
 @HiltViewModel
 class MainViewModel @Inject constructor(
   private val getCurrenciesUseCase: GetCurrenciesUseCase,
-  savedStateHandle: SavedStateHandle,
+  private val savedStateHandle: SavedStateHandle,
   currencyInitialState: CurrencyUiState
 ) : ViewModel() {
 
   val uiState = savedStateHandle.getStateFlow(SAVED_UI_STATE_KEY, currencyInitialState)
 
   init {
+    fetchCurrencies()
+  }
+
+  fun fetchCurrencies() {
     viewModelScope.launch {
       getCurrencies()
         .scan(uiState.value, ::reduceUiState)

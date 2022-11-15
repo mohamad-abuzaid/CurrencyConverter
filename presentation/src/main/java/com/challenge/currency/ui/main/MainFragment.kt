@@ -1,5 +1,6 @@
 package com.challenge.currency.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentMainBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -22,6 +24,8 @@ import kotlinx.coroutines.launch
 class MainFragment : Fragment() {
 
   private val viewModel: MainViewModel by hiltNavGraphViewModels(R.id.converter_nav_graph)
+
+  val sharedPreferences = requireContext().getSharedPreferences("currency_converter", Context.MODE_PRIVATE)
 
   private var _binding: FragmentMainBinding? = null
   private val binding get() = _binding!!
@@ -56,11 +60,11 @@ class MainFragment : Fragment() {
       setSelection(0, false)
       onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-          TODO("Not yet implemented")
+          //TODO("Not yet implemented")
         }
 
         override fun onNothingSelected(p0: AdapterView<*>?) {
-          TODO("Not yet implemented")
+          //TODO("Not yet implemented")
         }
       }
       prompt = getString(R.string.select_currency)
@@ -73,11 +77,11 @@ class MainFragment : Fragment() {
       setSelection(0, false)
       onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-          TODO("Not yet implemented")
+          //TODO("Not yet implemented")
         }
 
         override fun onNothingSelected(p0: AdapterView<*>?) {
-          TODO("Not yet implemented")
+          //TODO("Not yet implemented")
         }
       }
       prompt = getString(R.string.select_currency)
@@ -101,6 +105,7 @@ class MainFragment : Fragment() {
             else -> {
               showProgress(false)
               fillSpinners(uiState.currencies)
+              saveCurrencies(uiState.currencies.keys)
             }
           }
         }
@@ -120,6 +125,18 @@ class MainFragment : Fragment() {
 
   private fun showError(error: String) {
     Snackbar.make(binding.mainFragment, error, Snackbar.LENGTH_SHORT).show()
+  }
+
+  private fun saveCurrencies(currencies: Set<String>) {
+    val editor = sharedPreferences.edit()
+    val gson = Gson()
+    val json: String = gson.toJson(currencies)
+    editor.putString("currencies_list", json)
+    editor.apply()
+  }
+
+  private fun loadCurrencies(): Set<String> {
+    return sharedPreferences.getStringSet("currencies_list", emptySet())!!.toSet()
   }
 
   override fun onDestroyView() {

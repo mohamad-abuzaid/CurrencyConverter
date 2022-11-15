@@ -7,5 +7,5 @@ data class CurrenciesRemote(
   val success: Boolean,
 
   @SerializedName("symbols")
-  val symbols: Map<String, String>,
+  val symbols: Map<String, String>?,
 )

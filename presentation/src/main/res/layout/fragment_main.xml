@@ -9,13 +9,24 @@
   android:paddingVertical="40dp"
   tools:context=".ui.main.MainFragment">
 
+  <ImageButton
+    android:id="@+id/img_refresh"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:background="@color/main_green"
+    android:src="@drawable/ic_svg_swap"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="ContentDescription" />
+
   <androidx.appcompat.widget.AppCompatSpinner
     android:id="@+id/sp_curr_from"
     android:layout_width="150dp"
     android:layout_height="45dp"
+    android:layout_marginTop="25dp"
     android:spinnerMode="dropdown"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toBottomOf="@id/img_refresh" />
 
   <ImageButton
     android:id="@+id/img_switch"
@@ -74,6 +85,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/et_curr_from" />
+
 
   <ProgressBar
     android:id="@+id/progress_bar"
