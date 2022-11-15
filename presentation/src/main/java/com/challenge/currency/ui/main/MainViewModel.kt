@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.challenge.currency.ui.mappers.toConversionDisplay
 import com.challenge.currency.ui.uistate.CurrencyUiState
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState
+import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Converted
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Error
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Fetched
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Loading
+import com.challenge.domain.usecase.ConvertCurrencyUseCase
 import com.challenge.domain.usecase.GetCurrenciesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +28,7 @@ private const val TAG = "BaseViewModel"
 @HiltViewModel
 class MainViewModel @Inject constructor(
   private val getCurrenciesUseCase: GetCurrenciesUseCase,
+  private val convertCurrencyUseCase: ConvertCurrencyUseCase,
   private val savedStateHandle: SavedStateHandle,
   currencyInitialState: CurrencyUiState
 ) : ViewModel() {
@@ -35,7 +39,22 @@ class MainViewModel @Inject constructor(
     viewModelScope.launch {
       getCurrencies()
         .scan(uiState.value, ::reduceUiState)
-        .catch { Log.e(TAG, "", it) }
+        .catch { Log.e(TAG, "fetchCurrencies", it) }
+        .collect {
+          savedStateHandle[SAVED_UI_STATE_KEY] = it
+        }
+    }
+  }
+
+  fun fetchConversion(
+    to: String,
+    from: String,
+    amount: Double
+  ) {
+    viewModelScope.launch {
+      convertCurrency(to, from, amount)
+        .scan(uiState.value, ::reduceUiState)
+        .catch { Log.e(TAG, "fetchConversion", it) }
         .collect {
           savedStateHandle[SAVED_UI_STATE_KEY] = it
         }
@@ -56,6 +75,13 @@ class MainViewModel @Inject constructor(
       isError = false,
       isApi = true
     )
+    is Converted -> previousState.copy(
+      isLoading = false,
+      currFromVal = fetchedState.conversion.query.amount,
+      currToVal = fetchedState.conversion.result,
+      isError = false,
+      isApi = true
+    )
     is Error -> previousState.copy(
       isLoading = false,
       isError = true
@@ -63,11 +89,11 @@ class MainViewModel @Inject constructor(
   }
 
   fun updateCurrFrom(position: Int) {
-    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currFrom = position)
+    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currFromPos = position)
   }
 
   fun updateCurrTo(position: Int) {
-    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currTo = position)
+    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currToPos = position)
   }
 
   fun updateCurrencies(currencySet: Set<String>) {
@@ -89,15 +115,19 @@ class MainViewModel @Inject constructor(
       }
   }
 
-  private fun convertCurrencies(): Flow<FetchedState> = flow {
-    getCurrenciesUseCase()
+  private fun convertCurrency(
+    to: String,
+    from: String,
+    amount: Double
+  ): Flow<FetchedState> = flow {
+    convertCurrencyUseCase(to, from, amount)
       .onStart {
         emit(Loading)
       }
       .collect { result ->
         result
-          .onSuccess { currencies ->
-            emit(Fetched(currencies.symbols))
+          .onSuccess { conversion ->
+            emit(Converted(conversion.toConversionDisplay()))
           }
           .onFailure {
             emit(Error(it))

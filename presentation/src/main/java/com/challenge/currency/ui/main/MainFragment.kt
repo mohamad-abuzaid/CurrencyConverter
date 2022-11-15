@@ -74,6 +74,11 @@ class MainFragment : Fragment() {
 
     binding.etCurrFrom.addTextChangedListener {
       if (it.isNullOrEmpty()) binding.etCurrFrom.setText("1.0")
+      else {
+        val currFrom = binding.spCurrFrom.selectedItem.toString()
+        val currTo = binding.spCurrTo.selectedItem.toString()
+        viewModel.fetchConversion(currTo, currFrom, it.toString().toDouble())
+      }
     }
 
     binding.etCurrTo.addTextChangedListener {
@@ -145,8 +150,8 @@ class MainFragment : Fragment() {
     spinnerAdapter.clear()
     spinnerAdapter.addAll(currencies)
 
-    binding.spCurrFrom.setSelection(viewModel.uiState.value.currFrom, false)
-    binding.spCurrTo.setSelection(viewModel.uiState.value.currTo, false)
+    binding.spCurrFrom.setSelection(viewModel.uiState.value.currFromPos, false)
+    binding.spCurrTo.setSelection(viewModel.uiState.value.currToPos, false)
   }
 
   private fun showProgress(show: Boolean) {
@@ -159,8 +164,6 @@ class MainFragment : Fragment() {
   }
 
   private fun saveCurrencies(currencies: Set<String>) {
-    sharedPreferences =
-      requireContext().getSharedPreferences("currency_converter", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()
     val gson = Gson()
     val json: String = gson.toJson(currencies)
@@ -169,6 +172,8 @@ class MainFragment : Fragment() {
   }
 
   private fun loadCurrencies(): Set<String> {
+    sharedPreferences =
+      requireContext().getSharedPreferences("currency_converter", Context.MODE_PRIVATE)
     return sharedPreferences.getStringSet("currencies_list", emptySet())!!.toSet()
   }
 
