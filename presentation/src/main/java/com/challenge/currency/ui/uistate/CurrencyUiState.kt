@@ -6,8 +6,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CurrencyUiState(
   val isLoading: Boolean = false,
-  val currencies: Map<String, String> = emptyMap(),
-  val isError: Boolean = false
+  val currencies: Set<String> = emptySet(),
+  val isError: Boolean = false,
+  val isApi: Boolean = false,
+  val currFrom: Int = 0,
+  val currTo: Int = 0,
 ) : Parcelable {
 
   sealed class FetchedState {

@@ -1,6 +1,7 @@
 package com.challenge.currency.ui.main
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
@@ -25,14 +27,12 @@ class MainFragment : Fragment() {
 
   private val viewModel: MainViewModel by hiltNavGraphViewModels(R.id.converter_nav_graph)
 
-  val sharedPreferences = requireContext().getSharedPreferences("currency_converter", Context.MODE_PRIVATE)
+  private lateinit var sharedPreferences: SharedPreferences
 
   private var _binding: FragmentMainBinding? = null
   private val binding get() = _binding!!
 
   private lateinit var spinnerAdapter: ArrayAdapter<String>
-  private val FROM_SPINNER_ID = 1
-  private val TO_SPINNER_ID = 2
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +45,40 @@ class MainFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    checkSavedCurrencies()
+
     showProgress(false)
     initSpinners()
     listenToUiState()
+
+    initViews()
+  }
+
+  private fun checkSavedCurrencies() {
+    val currencies = loadCurrencies()
+    if (currencies.isEmpty()) viewModel.fetchCurrencies()
+    else viewModel.updateCurrencies(currencies)
+  }
+
+  private fun initViews() {
+    binding.imgRefresh.setOnClickListener { viewModel.fetchCurrencies() }
+    binding.imgSwitch.setOnClickListener {
+      val currFrom = binding.spCurrFrom.selectedItemPosition
+      val currTo = binding.spCurrTo.selectedItemPosition
+
+      binding.spCurrFrom.setSelection(currTo, false)
+      viewModel.updateCurrFrom(currTo)
+      binding.spCurrTo.setSelection(currFrom, false)
+      viewModel.updateCurrTo(currFrom)
+    }
+
+    binding.etCurrFrom.addTextChangedListener {
+      if (it.isNullOrEmpty()) binding.etCurrFrom.setText("1.0")
+    }
+
+    binding.etCurrTo.addTextChangedListener {
+
+    }
   }
 
   private fun initSpinners() {
@@ -60,7 +91,7 @@ class MainFragment : Fragment() {
       setSelection(0, false)
       onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-          //TODO("Not yet implemented")
+          viewModel.updateCurrFrom(p2)
         }
 
         override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -70,14 +101,13 @@ class MainFragment : Fragment() {
       prompt = getString(R.string.select_currency)
       gravity = Gravity.CENTER
     }
-    binding.spCurrFrom.tag = FROM_SPINNER_ID
 
     with(binding.spCurrTo) {
       adapter = spinnerAdapter
       setSelection(0, false)
       onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-          //TODO("Not yet implemented")
+          viewModel.updateCurrTo(p2)
         }
 
         override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -87,8 +117,6 @@ class MainFragment : Fragment() {
       prompt = getString(R.string.select_currency)
       gravity = Gravity.CENTER
     }
-    binding.spCurrTo.tag = TO_SPINNER_ID
-
   }
 
   private fun listenToUiState() {
@@ -104,8 +132,8 @@ class MainFragment : Fragment() {
             }
             else -> {
               showProgress(false)
-              fillSpinners(uiState.currencies)
-              saveCurrencies(uiState.currencies.keys)
+              if (uiState.currencies.isNotEmpty()) fillSpinners(uiState.currencies)
+              if (uiState.isApi) saveCurrencies(uiState.currencies)
             }
           }
         }
@@ -113,9 +141,12 @@ class MainFragment : Fragment() {
     }
   }
 
-  private fun fillSpinners(currencies: Map<String, String>) {
+  private fun fillSpinners(currencies: Set<String>) {
     spinnerAdapter.clear()
-    spinnerAdapter.addAll(currencies.keys)
+    spinnerAdapter.addAll(currencies)
+
+    binding.spCurrFrom.setSelection(viewModel.uiState.value.currFrom, false)
+    binding.spCurrTo.setSelection(viewModel.uiState.value.currTo, false)
   }
 
   private fun showProgress(show: Boolean) {
@@ -128,6 +159,8 @@ class MainFragment : Fragment() {
   }
 
   private fun saveCurrencies(currencies: Set<String>) {
+    sharedPreferences =
+      requireContext().getSharedPreferences("currency_converter", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()
     val gson = Gson()
     val json: String = gson.toJson(currencies)

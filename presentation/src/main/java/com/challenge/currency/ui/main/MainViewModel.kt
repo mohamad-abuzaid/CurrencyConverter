@@ -31,10 +31,6 @@ class MainViewModel @Inject constructor(
 
   val uiState = savedStateHandle.getStateFlow(SAVED_UI_STATE_KEY, currencyInitialState)
 
-  init {
-    fetchCurrencies()
-  }
-
   fun fetchCurrencies() {
     viewModelScope.launch {
       getCurrencies()
@@ -56,13 +52,27 @@ class MainViewModel @Inject constructor(
     )
     is Fetched -> previousState.copy(
       isLoading = false,
-      currencies = fetchedState.currencies,
-      isError = false
+      currencies = fetchedState.currencies.keys,
+      isError = false,
+      isApi = true
     )
     is Error -> previousState.copy(
       isLoading = false,
       isError = true
     )
+  }
+
+  fun updateCurrFrom(position: Int) {
+    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currFrom = position)
+  }
+
+  fun updateCurrTo(position: Int) {
+    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currTo = position)
+  }
+
+  fun updateCurrencies(currencySet: Set<String>) {
+    savedStateHandle[SAVED_UI_STATE_KEY] =
+      uiState.value.copy(currencies = currencySet, isApi = false)
   }
 
   private fun getCurrencies(): Flow<FetchedState> = flow {
