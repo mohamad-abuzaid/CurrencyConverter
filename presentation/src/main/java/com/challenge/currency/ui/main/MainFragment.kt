@@ -148,7 +148,7 @@ class MainFragment : Fragment() {
 
   private fun fillSpinners(currencies: Set<String>) {
     spinnerAdapter.clear()
-    spinnerAdapter.addAll(currencies)
+    spinnerAdapter.addAll(currencies.toList().sorted())
 
     binding.spCurrFrom.setSelection(viewModel.uiState.value.currFromPos, false)
     binding.spCurrTo.setSelection(viewModel.uiState.value.currToPos, false)

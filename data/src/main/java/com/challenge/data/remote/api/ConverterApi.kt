@@ -20,4 +20,13 @@ interface ConverterApi {
     @Query("from") from: String,
     @Query("amount") amount: Double,
   ): ConversionRemote
+
+  @GET("timeseries")
+  suspend fun getHistory(
+    @Header("apikey") accessKey: String,
+    @Query("start_date") startDate: String,
+    @Query("end_date") endDate: String,
+    @Query("base") base: String,
+    @Query("symbols") symbols: String,
+  ): ConversionRemote
 }
