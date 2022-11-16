@@ -10,6 +10,7 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
@@ -20,6 +21,10 @@ import kotlinx.coroutines.launch
 class DetailsFragment : Fragment() {
 
   private val viewModel: MainViewModel by hiltNavGraphViewModels(R.id.converter_nav_graph)
+  private val args: DetailsFragmentArgs by navArgs()
+
+  private lateinit var currFrom: String
+  private lateinit var currTo: String
 
   private var _binding: FragmentDetailsBinding? = null
   private val binding get() = _binding!!
@@ -38,16 +43,17 @@ class DetailsFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
+    currFrom = args.currFrom
+    currTo = args.currTo
 
     showProgress(false)
     listenToUiState()
 
-    initListeners()
+    fetchHistory()
   }
 
-  private fun initListeners() {
-
+  private fun fetchHistory() {
+    viewModel.fetchHistoryRates()
   }
 
   private fun listenToUiState() {
@@ -77,7 +83,7 @@ class DetailsFragment : Fragment() {
   }
 
   private fun showError(error: String) {
-    Snackbar.make(binding.mainFragment, error, Snackbar.LENGTH_SHORT).show()
+    Snackbar.make(binding.detailsFragment, error, Snackbar.LENGTH_SHORT).show()
   }
 
   override fun onDestroyView() {

@@ -80,7 +80,11 @@ class MainFragment : Fragment() {
     }
 
     binding.btnDetails.setOnClickListener {
-      it.findNavController().navigate(R.id.detailsFragment)
+      val action = MainFragmentDirections.actionCurrenciesFragmentToDetailsFragment(
+        binding.spCurrFrom.selectedItem.toString(),
+        binding.spCurrTo.selectedItem.toString()
+      )
+      it.findNavController().navigate(action)
     }
 
     binding.etCurrFrom.addTextChangedListener {
@@ -89,7 +93,7 @@ class MainFragment : Fragment() {
     }
   }
 
-  private fun convertCurrencies(){
+  private fun convertCurrencies() {
     val currFrom = binding.spCurrFrom.selectedItem.toString()
     val currTo = binding.spCurrTo.selectedItem.toString()
     viewModel.fetchConversion(currTo, currFrom, binding.etCurrFrom.text.toString().toDouble())

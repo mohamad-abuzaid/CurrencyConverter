@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  tools:context=".ui.main.MainFragment"
+  tools:context=".ui.main.DetailsFragment"
   tools:viewBindingIgnore="true" >
 
   <data>
@@ -12,7 +12,7 @@
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main_fragment"
+    android:id="@+id/details_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="10dp"
