@@ -16,6 +16,7 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentMainBinding
 import com.google.android.material.snackbar.Snackbar
@@ -76,6 +77,10 @@ class MainFragment : Fragment() {
       viewModel.updateCurrTo(currFrom)
 
       convertCurrencies()
+    }
+
+    binding.btnDetails.setOnClickListener {
+      it.findNavController().navigate(R.id.detailsFragment)
     }
 
     binding.etCurrFrom.addTextChangedListener {

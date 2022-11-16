@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:context=".ui.main.MainFragment"
+  tools:viewBindingIgnore="true" >
+
+  <data>
+    <variable
+      name="vm"
+      type="com.challenge.currency.ui.main.MainViewModel" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="40dp">
+
+    <ImageButton
+      android:id="@+id/img_refresh"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:background="@color/main_green"
+      android:src="@drawable/ic_svg_refresh"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+      android:id="@+id/sp_curr_from"
+      android:layout_width="150dp"
+      android:layout_height="45dp"
+      android:layout_marginTop="25dp"
+      android:spinnerMode="dropdown"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/img_refresh" />
+
+    <ImageButton
+      android:id="@+id/img_switch"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:background="@color/main_blue"
+      android:src="@drawable/ic_svg_swap"
+      app:layout_constraintEnd_toStartOf="@id/sp_curr_to"
+      app:layout_constraintStart_toEndOf="@id/sp_curr_from"
+      app:layout_constraintTop_toTopOf="@id/sp_curr_from"
+      tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+      android:id="@+id/sp_curr_to"
+      android:layout_width="150dp"
+      android:layout_height="45dp"
+      android:spinnerMode="dropdown"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@id/sp_curr_from" />
+
+    <EditText
+      android:id="@+id/et_curr_from"
+      android:layout_width="0dp"
+      android:layout_height="45dp"
+      android:layout_marginTop="35dp"
+      android:hint="@string/hint_from"
+      android:importantForAutofill="no"
+      android:inputType="numberDecimal"
+      android:paddingHorizontal="10dp"
+      app:layout_constraintEnd_toStartOf="@id/et_curr_to"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/img_switch" />
+
+    <EditText
+      android:id="@+id/et_curr_to"
+      android:layout_width="0dp"
+      android:layout_height="45dp"
+      android:layout_marginStart="40dp"
+      android:hint="@string/hint_to"
+      android:importantForAutofill="no"
+      android:inputType="numberDecimal"
+      android:text="@{String.valueOf(vm.uiState.currToVal)}"
+      android:paddingHorizontal="10dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/et_curr_from"
+      app:layout_constraintTop_toTopOf="@id/et_curr_from" />
+
+    <Button
+      android:id="@+id/btn_details"
+      android:layout_width="0dp"
+      android:layout_height="45dp"
+      android:layout_marginHorizontal="40dp"
+      android:layout_marginTop="50dp"
+      android:backgroundTint="@color/main_green"
+      android:text="@string/details"
+      android:textColor="@color/purple_700"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/et_curr_from" />
+
+    <ProgressBar
+      android:id="@+id/progress_bar"
+      android:layout_width="70dp"
+      android:layout_height="70dp"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:visibility="visible" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
