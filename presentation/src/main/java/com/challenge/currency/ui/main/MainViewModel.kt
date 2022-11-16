@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.challenge.currency.ui.mappers.toConversionDisplay
 import com.challenge.currency.ui.mappers.toHistoryDisplay
-import com.challenge.currency.ui.model.ConversionDisplay
-import com.challenge.currency.ui.model.QueryDisplay
 import com.challenge.currency.ui.uistate.CurrencyUiState
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Converted
@@ -147,23 +146,23 @@ class MainViewModel @Inject constructor(
     from: String,
     amount: Double
   ): Flow<FetchedState> = flow {
-    val query = QueryDisplay(25.0)
-    val conversion = ConversionDisplay(query, 33.4)
-    emit(Converted(conversion))
+//    val query = QueryDisplay(25.0)
+//    val conversion = ConversionDisplay(query, 33.4)
+//    emit(Converted(conversion))
 
-//    convertCurrencyUseCase(to, from, amount)
-//      .onStart {
-//        emit(Loading)
-//      }
-//      .collect { result ->
-//        result
-//          .onSuccess { conversion ->
-//            emit(Converted(conversion.toConversionDisplay()))
-//          }
-//          .onFailure {
-//            emit(Error(it))
-//          }
-//      }
+    convertCurrencyUseCase(to, from, amount)
+      .onStart {
+        emit(Loading)
+      }
+      .collect { result ->
+        result
+          .onSuccess { conversion ->
+            emit(Converted(conversion.toConversionDisplay()))
+          }
+          .onFailure {
+            emit(Error(it))
+          }
+      }
   }
 
   private fun getRatesHistory(

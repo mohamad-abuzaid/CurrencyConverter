@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
@@ -18,7 +19,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentMainBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,7 +38,11 @@ class MainFragment : Fragment() {
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    _binding = FragmentMainBinding.inflate(inflater, container, false)
+    //return inflater.inflate(R.layout.fragment_main, container, false)
+
+    _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+    binding.lifecycleOwner = this
+    binding.vm = viewModel
     return binding.root
   }
 
@@ -51,7 +55,7 @@ class MainFragment : Fragment() {
     initSpinners()
     listenToUiState()
 
-    initViews()
+    initListeners()
   }
 
   private fun checkSavedCurrencies() {
@@ -60,7 +64,7 @@ class MainFragment : Fragment() {
     else viewModel.updateCurrencies(currencies)
   }
 
-  private fun initViews() {
+  private fun initListeners() {
     binding.imgRefresh.setOnClickListener { viewModel.fetchCurrencies() }
     binding.imgSwitch.setOnClickListener {
       val currFrom = binding.spCurrFrom.selectedItemPosition
@@ -70,20 +74,20 @@ class MainFragment : Fragment() {
       viewModel.updateCurrFrom(currTo)
       binding.spCurrTo.setSelection(currFrom, false)
       viewModel.updateCurrTo(currFrom)
+
+      convertCurrencies()
     }
 
     binding.etCurrFrom.addTextChangedListener {
       if (it.isNullOrEmpty()) binding.etCurrFrom.setText("1.0")
-      else {
-        val currFrom = binding.spCurrFrom.selectedItem.toString()
-        val currTo = binding.spCurrTo.selectedItem.toString()
-        viewModel.fetchConversion(currTo, currFrom, it.toString().toDouble())
-      }
+      else convertCurrencies()
     }
+  }
 
-    binding.etCurrTo.addTextChangedListener {
-
-    }
+  private fun convertCurrencies(){
+    val currFrom = binding.spCurrFrom.selectedItem.toString()
+    val currTo = binding.spCurrTo.selectedItem.toString()
+    viewModel.fetchConversion(currTo, currFrom, binding.etCurrFrom.text.toString().toDouble())
   }
 
   private fun initSpinners() {
