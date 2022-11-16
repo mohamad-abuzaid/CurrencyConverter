@@ -68,13 +68,15 @@ class MainFragment : Fragment() {
   private fun initListeners() {
     binding.imgRefresh.setOnClickListener { viewModel.fetchCurrencies() }
     binding.imgSwitch.setOnClickListener {
-      val currFrom = binding.spCurrFrom.selectedItemPosition
-      val currTo = binding.spCurrTo.selectedItemPosition
+      val currFrom = binding.spCurrFrom.selectedItem.toString()
+      val currFromPos = binding.spCurrFrom.selectedItemPosition
+      val currTo = binding.spCurrTo.selectedItem.toString()
+      val currToPos = binding.spCurrTo.selectedItemPosition
 
-      binding.spCurrFrom.setSelection(currTo, false)
-      viewModel.updateCurrFrom(currTo)
-      binding.spCurrTo.setSelection(currFrom, false)
-      viewModel.updateCurrTo(currFrom)
+      binding.spCurrFrom.setSelection(currToPos, false)
+      viewModel.updateCurrFrom(currTo, currToPos)
+      binding.spCurrTo.setSelection(currFromPos, false)
+      viewModel.updateCurrTo(currFrom, currFromPos)
 
       convertCurrencies()
     }
@@ -109,7 +111,8 @@ class MainFragment : Fragment() {
       setSelection(0, false)
       onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-          viewModel.updateCurrFrom(p2)
+          viewModel.updateCurrFrom(p0?.selectedItem.toString() ?: "", p2)
+          convertCurrencies()
         }
 
         override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -125,7 +128,8 @@ class MainFragment : Fragment() {
       setSelection(0, false)
       onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-          viewModel.updateCurrTo(p2)
+          viewModel.updateCurrTo(p0?.selectedItem.toString() ?: "", p2)
+          convertCurrencies()
         }
 
         override fun onNothingSelected(p0: AdapterView<*>?) {

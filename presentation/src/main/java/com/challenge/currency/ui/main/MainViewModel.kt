@@ -114,12 +114,14 @@ class MainViewModel @Inject constructor(
     )
   }
 
-  fun updateCurrFrom(position: Int) {
-    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currFromPos = position)
+  fun updateCurrFrom(currency: String, position: Int) {
+    savedStateHandle[SAVED_UI_STATE_KEY] =
+      uiState.value.copy(currFrom = currency, currFromPos = position)
   }
 
-  fun updateCurrTo(position: Int) {
-    savedStateHandle[SAVED_UI_STATE_KEY] = uiState.value.copy(currToPos = position)
+  fun updateCurrTo(currency: String, position: Int) {
+    savedStateHandle[SAVED_UI_STATE_KEY] =
+      uiState.value.copy(currTo = currency, currToPos = position)
   }
 
   fun updateCurrencies(currencySet: Set<String>) {
@@ -146,10 +148,6 @@ class MainViewModel @Inject constructor(
     from: String,
     amount: Double
   ): Flow<FetchedState> = flow {
-//    val query = QueryDisplay(25.0)
-//    val conversion = ConversionDisplay(query, 33.4)
-//    emit(Converted(conversion))
-
     convertCurrencyUseCase(to, from, amount)
       .onStart {
         emit(Loading)

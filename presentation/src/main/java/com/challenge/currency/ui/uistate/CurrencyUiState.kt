@@ -12,8 +12,10 @@ data class CurrencyUiState(
   val history: HistoryDisplay = HistoryDisplay("", mapOf()),
   val isError: Boolean = false,
   val isApi: Boolean = false,
+  val currFrom: String = "",
   val currFromPos: Int = 0,
   val currFromVal: Double = 0.0,
+  val currTo: String = "",
   val currToPos: Int = 0,
   val currToVal: Double = 0.0,
 ) : Parcelable {

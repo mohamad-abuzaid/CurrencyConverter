@@ -39,7 +39,7 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="25dp"
       android:gravity="center"
-      android:text="@{vm.uiState.history.base}"
+      android:text="@{vm.uiState.currFrom}"
       android:textColor="@color/black"
       android:textSize="24sp"
       android:textStyle="bold"
@@ -64,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:text="@{vm.uiState.currTo}"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -85,6 +86,7 @@
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@{vm.uiState.history.getRates(0, vm.uiState.currTo)}"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="34.55" />
@@ -102,6 +104,7 @@
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@{vm.uiState.history.getRates(1, vm.uiState.currTo)}"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="34.55" />
@@ -119,6 +122,7 @@
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@{vm.uiState.history.getRates(2, vm.uiState.currTo)}"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="34.55" />
@@ -136,6 +140,115 @@
       app:layout_constraintStart_toEndOf="@id/ll_history"
       app:layout_constraintTop_toTopOf="@id/ll_history">
 
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(0)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(1)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(2)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(3)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(4)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(5)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(6)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(7)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(8)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(9)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getCompare(10)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="AED: 45.66" />
 
     </LinearLayout>
 
