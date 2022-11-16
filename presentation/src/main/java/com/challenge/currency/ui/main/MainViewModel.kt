@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val SAVED_UI_STATE_KEY = "savedUiStateKey"
-private const val TAG = "BaseViewModel"
+private const val TAG = "MainViewModel"
 
 @HiltViewModel
 class MainViewModel @Inject constructor(

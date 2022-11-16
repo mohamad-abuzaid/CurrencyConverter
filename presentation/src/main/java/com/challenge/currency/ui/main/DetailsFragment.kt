@@ -4,18 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -28,6 +35,9 @@ class DetailsFragment : Fragment() {
 
   private var _binding: FragmentDetailsBinding? = null
   private val binding get() = _binding!!
+
+  private val currenciesList =
+    mutableListOf("USD", "AED", "EGP", "GBP", "CAD", "EUR", "CHF", "AUD", "KWD", "QAR")
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -45,15 +55,29 @@ class DetailsFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     currFrom = args.currFrom
     currTo = args.currTo
+    currenciesList.add(0, currTo)
 
     showProgress(false)
+    initListeners()
     listenToUiState()
 
     fetchHistory()
   }
 
+  private fun initListeners() {
+    binding.imgRefresh.setOnClickListener { fetchHistory() }
+  }
+
   private fun fetchHistory() {
-    viewModel.fetchHistoryRates()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val startDate = formatter.format(LocalDate.now())
+    val endDate = formatter.format(LocalDate.now().plusDays(2))
+    viewModel.fetchHistoryRates(
+      startDate,
+      endDate,
+      currFrom,
+      currenciesList.joinToString(",")
+    )
   }
 
   private fun listenToUiState() {
@@ -69,12 +93,16 @@ class DetailsFragment : Fragment() {
             }
             else -> {
               showProgress(false)
-
+              updateView(uiState.history)
             }
           }
         }
       }
     }
+  }
+
+  private fun updateView(history: Map<String, Map<String, String>?>) {
+
   }
 
   private fun showProgress(show: Boolean) {
