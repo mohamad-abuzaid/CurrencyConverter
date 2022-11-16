@@ -165,16 +165,14 @@ class MainFragment : Fragment() {
 
   private fun saveCurrencies(currencies: Set<String>) {
     val editor = sharedPreferences.edit()
-    val gson = Gson()
-    val json: String = gson.toJson(currencies)
-    editor.putString("currencies_list", json)
+    editor.putStringSet("currencies_set", currencies)
     editor.apply()
   }
 
   private fun loadCurrencies(): Set<String> {
     sharedPreferences =
       requireContext().getSharedPreferences("currency_converter", Context.MODE_PRIVATE)
-    return sharedPreferences.getStringSet("currencies_list", emptySet())!!.toSet()
+    return sharedPreferences.getStringSet("currencies_set", emptySet())!!.toSet()
   }
 
   override fun onDestroyView() {

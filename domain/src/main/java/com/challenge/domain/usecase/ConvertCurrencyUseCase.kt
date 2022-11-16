@@ -25,16 +25,16 @@ suspend fun convertCurrency(
   .map {
     resultOf { it }
   }
-  .retryWhen { cause, _ ->
-    if (cause is IOException) {
-      emit(Result.failure(cause))
-
-      delay(RETRY_TIME_IN_MILLIS)
-      true
-    } else {
-      false
-    }
-  }
+//  .retryWhen { cause, _ ->
+//    if (cause is IOException) {
+//      emit(Result.failure(cause))
+//
+//      delay(RETRY_TIME_IN_MILLIS)
+//      true
+//    } else {
+//      false
+//    }
+//  }
   .catch { // for other than IOException but it will stop collecting Flow
     emit(Result.failure(it)) // also catch does re-throw CancellationException
   }
