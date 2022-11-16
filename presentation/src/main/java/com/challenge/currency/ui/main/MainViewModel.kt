@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.challenge.currency.ui.mappers.toConversionDisplay
 import com.challenge.currency.ui.mappers.toHistoryDisplay
 import com.challenge.currency.ui.model.ConversionDisplay
 import com.challenge.currency.ui.model.QueryDisplay
@@ -106,7 +105,7 @@ class MainViewModel @Inject constructor(
     )
     is History -> previousState.copy(
       isLoading = false,
-      history =  fetchedState.history.rates,
+      history = fetchedState.history.rates,
       isError = false,
       isApi = true
     )
