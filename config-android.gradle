@@ -12,12 +12,16 @@ android {
     versionName '0.1'
     versionCode 1
 
-    buildFeatures {
-      //viewBinding = true
-      dataBinding true
-    }
-
     testInstrumentationRunner deps.JUnitRunner
+  }
+
+  buildFeatures {
+    //viewBinding = true
+    dataBinding true
+  }
+
+  testOptions {
+    unitTests.returnDefaultValues = true
   }
 
   kotlinOptions {

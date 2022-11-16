@@ -68,6 +68,7 @@ ext {
 
   coroutines = Group {
     implementation deps.coroutine.coroutines
+    implementation deps.coroutine.test
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +97,7 @@ ext {
     testImplementation deps.mockito.core
     testImplementation deps.mockito.inline
     testImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.mockk
     testImplementation deps.lifecycle.testing
 
     androidTestImplementation(deps.runner) {
