@@ -2,6 +2,7 @@ package com.challenge.data.remote.api
 
 import com.challenge.data.remote.models.ConversionRemote
 import com.challenge.data.remote.models.CurrenciesRemote
+import com.challenge.data.remote.models.HistoryRemote
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
@@ -28,5 +29,5 @@ interface ConverterApi {
     @Query("end_date") endDate: String,
     @Query("base") base: String,
     @Query("symbols") symbols: String,
-  ): ConversionRemote
+  ): HistoryRemote
 }

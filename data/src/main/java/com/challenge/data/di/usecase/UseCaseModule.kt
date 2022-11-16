@@ -3,8 +3,10 @@ package com.challenge.data.di.usecase
 import com.challenge.domain.repository.ConverterRepository
 import com.challenge.domain.usecase.ConvertCurrencyUseCase
 import com.challenge.domain.usecase.GetCurrenciesUseCase
+import com.challenge.domain.usecase.GetHistoryUseCase
 import com.challenge.domain.usecase.convertCurrency
 import com.challenge.domain.usecase.getCurrencies
+import com.challenge.domain.usecase.getHistory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +31,15 @@ object UseCaseModule {
   ): ConvertCurrencyUseCase {
     return ConvertCurrencyUseCase { to, from, amount ->
       convertCurrency(converterRepository, to, from, amount)
+    }
+  }
+
+  @Provides
+  fun provideGetHistoryUseCase(
+    converterRepository: ConverterRepository
+  ): GetHistoryUseCase {
+    return GetHistoryUseCase { startDate, endDate, base, symbols ->
+      getHistory(converterRepository, startDate, endDate, base, symbols)
     }
   }
 }

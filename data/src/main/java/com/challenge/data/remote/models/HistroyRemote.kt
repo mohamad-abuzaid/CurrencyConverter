@@ -7,7 +7,7 @@ data class HistoryRemote(
   val success: Boolean,
 
   @SerializedName("base")
-  val base: String,
+  val base: String?,
 
   @SerializedName("rates")
   val rates: Map<String, Map<String, String>?>?,

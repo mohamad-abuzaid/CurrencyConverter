@@ -2,10 +2,12 @@ package com.challenge.data.repositories
 
 import com.challenge.data.mappers.toConversionModel
 import com.challenge.data.mappers.toCurrenciesModel
+import com.challenge.data.mappers.toHistoryModel
 import com.challenge.data.remote.api.ConverterApi
 import com.challenge.domain.BuildConfig
 import com.challenge.domain.model.ConversionModel
 import com.challenge.domain.model.CurrenciesModel
+import com.challenge.domain.model.HistoryModel
 import com.challenge.domain.repository.ConverterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -30,6 +32,18 @@ class ConverterRepositoryImpl @Inject constructor(
     emit(
       converterApi
         .convertCurrency(BuildConfig.API_KEY, to, from, amount).toConversionModel()
+    )
+  }
+
+  override suspend fun getRatesHistory(
+    startDate: String,
+    endDate: String,
+    base: String,
+    symbols: String
+  ): Flow<HistoryModel> = flow {
+    emit(
+      converterApi
+        .getHistory(BuildConfig.API_KEY, startDate, endDate, base, symbols).toHistoryModel()
     )
   }
 }

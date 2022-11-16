@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.challenge.currency.ui.mappers.toConversionDisplay
+import com.challenge.currency.ui.mappers.toHistoryDisplay
 import com.challenge.currency.ui.model.ConversionDisplay
 import com.challenge.currency.ui.model.QueryDisplay
 import com.challenge.currency.ui.uistate.CurrencyUiState
@@ -12,9 +13,11 @@ import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Converted
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Error
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Fetched
+import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.History
 import com.challenge.currency.ui.uistate.CurrencyUiState.FetchedState.Loading
 import com.challenge.domain.usecase.ConvertCurrencyUseCase
 import com.challenge.domain.usecase.GetCurrenciesUseCase
+import com.challenge.domain.usecase.GetHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -31,6 +34,7 @@ private const val TAG = "BaseViewModel"
 class MainViewModel @Inject constructor(
   private val getCurrenciesUseCase: GetCurrenciesUseCase,
   private val convertCurrencyUseCase: ConvertCurrencyUseCase,
+  private val getHistoryUseCase: GetHistoryUseCase,
   private val savedStateHandle: SavedStateHandle,
   currencyInitialState: CurrencyUiState
 ) : ViewModel() {
@@ -63,6 +67,22 @@ class MainViewModel @Inject constructor(
     }
   }
 
+  fun fetchHistoryRates(
+    startDate: String,
+    endDate: String,
+    base: String,
+    symbols: String
+  ) {
+    viewModelScope.launch {
+      getRatesHistory(startDate, endDate, base, symbols)
+        .scan(uiState.value, ::reduceUiState)
+        .catch { Log.e(TAG, "fetchHistoryRates", it) }
+        .collect {
+          savedStateHandle[SAVED_UI_STATE_KEY] = it
+        }
+    }
+  }
+
   private fun reduceUiState(
     previousState: CurrencyUiState,
     fetchedState: FetchedState
@@ -81,6 +101,12 @@ class MainViewModel @Inject constructor(
       isLoading = false,
       currFromVal = fetchedState.conversion.query.amount,
       currToVal = fetchedState.conversion.result,
+      isError = false,
+      isApi = true
+    )
+    is History -> previousState.copy(
+      isLoading = false,
+      history =  fetchedState.history.rates,
       isError = false,
       isApi = true
     )
@@ -139,5 +165,26 @@ class MainViewModel @Inject constructor(
 //            emit(Error(it))
 //          }
 //      }
+  }
+
+  private fun getRatesHistory(
+    startDate: String,
+    endDate: String,
+    base: String,
+    symbols: String
+  ): Flow<FetchedState> = flow {
+    getHistoryUseCase(startDate, endDate, base, symbols)
+      .onStart {
+        emit(Loading)
+      }
+      .collect { result ->
+        result
+          .onSuccess { history ->
+            emit(History(history.toHistoryDisplay()))
+          }
+          .onFailure {
+            emit(Error(it))
+          }
+      }
   }
 }
