@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class CurrencyUiState(
   val isLoading: Boolean = false,
   val currencies: Set<String> = emptySet(),
-  val history: Map<String, Map<String, String>?> = emptyMap(),
+  val history: HistoryDisplay = HistoryDisplay("", mapOf()),
   val isError: Boolean = false,
   val isApi: Boolean = false,
   val currFromPos: Int = 0,

@@ -10,6 +10,10 @@
     <variable
       name="vm"
       type="com.challenge.currency.ui.main.MainViewModel" />
+
+    <variable
+      name="history"
+      type="com.challenge.currency.ui.model.HistoryDisplay" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +33,111 @@
       app:layout_constraintTop_toTopOf="parent"
       tools:ignore="ContentDescription" />
 
+    <TextView
+      android:id="@+id/tv_from"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="25dp"
+      android:gravity="center"
+      android:text="@{vm.uiState.history.base}"
+      android:textColor="@color/black"
+      android:textSize="24sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/img_refresh"
+      tools:text="AED" />
+
+    <LinearLayout
+      android:id="@+id/ll_history"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:gravity="start"
+      android:orientation="vertical"
+      android:padding="10dp"
+      app:layout_constraintEnd_toStartOf="@id/ll_compare"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_from">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_refresh"
+        tools:text="USD" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getDates(0)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="2022-15-12" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="34.55" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getDates(1)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="2022-15-12" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="34.55" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@{vm.uiState.history.getDates(2)}"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="2022-15-12" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="34.55" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/ll_compare"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:gravity="start"
+      android:orientation="vertical"
+      android:padding="10dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/ll_history"
+      app:layout_constraintTop_toTopOf="@id/ll_history">
+
+
+    </LinearLayout>
 
     <ProgressBar
       android:id="@+id/progress_bar"

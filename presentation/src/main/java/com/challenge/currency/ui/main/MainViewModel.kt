@@ -104,7 +104,7 @@ class MainViewModel @Inject constructor(
     )
     is History -> previousState.copy(
       isLoading = false,
-      history = fetchedState.history.rates,
+      history = fetchedState.history,
       isError = false,
       isApi = true
     )

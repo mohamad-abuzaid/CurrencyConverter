@@ -4,25 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.sql.Date
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -93,16 +88,11 @@ class DetailsFragment : Fragment() {
             }
             else -> {
               showProgress(false)
-              updateView(uiState.history)
             }
           }
         }
       }
     }
-  }
-
-  private fun updateView(history: Map<String, Map<String, String>?>) {
-
   }
 
   private fun showProgress(show: Boolean) {
