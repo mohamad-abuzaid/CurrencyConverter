@@ -16,7 +16,7 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.challenge.currency.R
 import com.challenge.currency.databinding.FragmentMainBinding
 import com.google.android.material.snackbar.Snackbar
@@ -86,7 +86,7 @@ class MainFragment : Fragment() {
         binding.spCurrFrom.selectedItem.toString(),
         binding.spCurrTo.selectedItem.toString()
       )
-      it.findNavController().navigate(action)
+      findNavController().navigate(action)
     }
 
     binding.etCurrFrom.addTextChangedListener {
@@ -96,8 +96,8 @@ class MainFragment : Fragment() {
   }
 
   private fun convertCurrencies() {
-    val currFrom = binding.spCurrFrom.selectedItem.toString()
-    val currTo = binding.spCurrTo.selectedItem.toString()
+    val currFrom = binding.spCurrFrom.selectedItem?.toString()?:viewModel.uiState.value.currFrom
+    val currTo = binding.spCurrTo.selectedItem?.toString()?:viewModel.uiState.value.currTo
     viewModel.fetchConversion(currTo, currFrom, binding.etCurrFrom.text.toString().toDouble())
   }
 

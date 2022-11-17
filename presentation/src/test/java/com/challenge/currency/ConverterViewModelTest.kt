@@ -10,20 +10,16 @@ import com.challenge.domain.usecase.GetCurrenciesUseCase
 import com.challenge.domain.usecase.GetHistoryUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ConverterViewModelTest {
@@ -66,7 +62,7 @@ class ConverterViewModelTest {
     )
 
     // Act
-    viewModel.fetchCurrencies()
+    launch {  viewModel.fetchCurrencies() }
 
     // Assert
     viewModel.uiState.test {

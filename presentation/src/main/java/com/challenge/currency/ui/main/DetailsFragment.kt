@@ -54,6 +54,13 @@ class DetailsFragment : Fragment() {
     currTo = args.currTo
     currenciesList.add(0, currTo)
 
+    requireActivity().onBackPressedDispatcher
+      .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+          findNavController().popBackStack()
+        }
+      })
+
     showProgress(false)
     initListeners()
     listenToUiState()
