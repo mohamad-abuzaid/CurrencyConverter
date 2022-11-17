@@ -46,7 +46,7 @@ ext.deps = [
         'mockwebserver': "com.squareup.okhttp3:mockwebserver:$versions.okHttp",
     ],
     'coroutine': [
-        'coroutines': "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9",
+        'coroutines': "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4",
         'test': "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4",
     ],
     'lifecycle': [
@@ -70,6 +70,7 @@ ext.deps = [
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     'runner': "androidx.test:runner:1.1.0",
+    'turbine': "app.cash.turbine:turbine:0.12.1",
     'mockito': [
         'core': "org.mockito:mockito-core:$versions.mockito",
         'inline': "org.mockito:mockito-inline:$versions.mockito",

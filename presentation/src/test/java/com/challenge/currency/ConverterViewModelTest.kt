@@ -8,6 +8,11 @@ import com.challenge.domain.model.CurrenciesModel
 import com.challenge.domain.usecase.ConvertCurrencyUseCase
 import com.challenge.domain.usecase.GetCurrenciesUseCase
 import com.challenge.domain.usecase.GetHistoryUseCase
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.impl.annotations.SpyK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -21,20 +26,28 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@RunWith(MockitoJUnitRunner::class)
-class MainViewModelTest {
+class ConverterViewModelTest {
   @ExperimentalCoroutinesApi @get:Rule var mainCoroutineRule = MainCoroutineRule()
 
-  @Mock lateinit var getCurrenciesUseCase: GetCurrenciesUseCase
-  @Mock lateinit var convertCurrencyUseCase: ConvertCurrencyUseCase
-  @Mock lateinit var getHistoryUseCase: GetHistoryUseCase
+  @RelaxedMockK
+  private lateinit var getCurrenciesUseCase: GetCurrenciesUseCase
 
-  private val savedStateHandle = SavedStateHandle()
+  @RelaxedMockK
+  private lateinit var convertCurrencyUseCase: ConvertCurrencyUseCase
+
+  @RelaxedMockK
+  private lateinit var getHistoryUseCase: GetHistoryUseCase
+
+  @SpyK
+  private var savedStateHandle = SavedStateHandle()
+
   private val currencyUiState = CurrencyUiState()
 
   private lateinit var viewModel: MainViewModel
 
   @Before fun setUp() {
+    MockKAnnotations.init(this)
+
     viewModel = MainViewModel(
       getCurrenciesUseCase,
       convertCurrencyUseCase,
@@ -48,10 +61,8 @@ class MainViewModelTest {
     // Arrange
     val currenciesModel = CurrenciesModel(mapOf("AED" to "Emirates", "USD" to "America"))
 
-    whenever(getCurrenciesUseCase()).thenReturn(
-      flowOf(
-        Result.success(currenciesModel)
-      )
+    coEvery { getCurrenciesUseCase() } returns flowOf(
+      Result.success(currenciesModel)
     )
 
     // Act
@@ -66,6 +77,8 @@ class MainViewModelTest {
       )
       Assert.assertFalse(actualItem.isLoading)
       Assert.assertFalse(actualItem.isError)
+
+      awaitComplete()
     }
   }
 }

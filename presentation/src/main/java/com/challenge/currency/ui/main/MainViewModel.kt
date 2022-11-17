@@ -41,7 +41,19 @@ class MainViewModel @Inject constructor(
 
   fun fetchCurrencies() {
     viewModelScope.launch {
-      getCurrencies()
+      flow {
+        getCurrenciesUseCase()
+          .onStart { emit(Loading) }
+          .collect { result ->
+            result
+              .onSuccess { currencies ->
+                emit(Fetched(currencies.symbols))
+              }
+              .onFailure {
+                emit(Error(it))
+              }
+          }
+      }
         .scan(uiState.value, ::reduceUiState)
         .catch { Log.e(TAG, "fetchCurrencies", it) }
         .collect {

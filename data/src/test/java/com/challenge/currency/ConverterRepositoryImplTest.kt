@@ -1,29 +1,30 @@
 package com.challenge.currency
 
+import app.cash.turbine.test
 import com.challenge.data.remote.api.ConverterApi
 import com.challenge.data.repositories.ConverterRepositoryImpl
 import com.challenge.domain.repository.ConverterRepository
 import com.google.gson.Gson
-import com.google.gson.JsonParseException
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 @RunWith(MockitoJUnitRunner::class)
 class ConverterRepositoryImplTest {
 
   private val server: MockWebServer = MockWebServer()
   private val MOCK_WEBSERVER_PORT = 8000
-  lateinit var converterApi: ConverterApi
-  lateinit var converterRepository: ConverterRepository
+  private lateinit var converterApi: ConverterApi
+  private lateinit var converterRepository: ConverterRepository
 
   @Before
   fun setup() {
@@ -48,17 +49,19 @@ class ConverterRepositoryImplTest {
         enqueue(
           MockResponse().setBody(
             MockResponseFileReader(
-              "converter/ListResponseSuccess.json"
+              "converter/CurrenciesResponseSuccess.json"
             ).content
           )
         )
       }
 
       converterRepository.getAllCurrencies()
-        .test()
-        .awaitDone(3, TimeUnit.SECONDS)
-        .assertValue {
-          it.get("AED").toString() == "\"United Arab Emirates Dirham\""
+        .test {
+          val actualItem = awaitItem()
+
+          Assert.assertEquals(
+            "United Arab Emirates Dirham", actualItem.symbols["AED"]
+          )
         }
     }
   }
@@ -69,14 +72,15 @@ class ConverterRepositoryImplTest {
       server.apply {
         enqueue(
           MockResponse().setBody(
-            MockResponseFileReader("converter/ListResponseError.json").content
+            MockResponseFileReader("converter/CurrenciesResponseError.json").content
           )
         )
       }
+
       converterRepository.getAllCurrencies()
-        .test()
-        .awaitDone(3, TimeUnit.SECONDS)
-        .assertError(JsonParseException::class.java)
+        .test {
+          awaitError()
+        }
     }
   }
 }

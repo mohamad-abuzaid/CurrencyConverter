@@ -103,6 +103,7 @@ ext {
     androidTestImplementation(deps.runner) {
       exclude group: 'com.android.support', module: 'support-annotations'
     }
+    testImplementation deps.turbine
     testImplementation deps.androidxJunit
     androidTestImplementation deps.androidxJunit
     testImplementation deps.mockwebserver
